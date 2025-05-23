@@ -6,7 +6,7 @@ import NewsSkeleton from './NewsSkeleton';
 import { AlertCircle } from 'lucide-react';
 
 const NewsContainer: React.FC = () => {
-  const { news, loading, error } = useContext(NewsContext);
+  const { news, loading, error, refreshNews } = useContext(NewsContext);
 
   if (loading) {
     return <NewsSkeleton />;
@@ -20,7 +20,10 @@ const NewsContainer: React.FC = () => {
         <p className="text-slate-600 dark:text-slate-400 mb-4">
           {error || "Something went wrong. Please try again later."}
         </p>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
+        <button 
+          onClick={refreshNews}
+          className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition"
+        >
           Try Again
         </button>
       </div>
