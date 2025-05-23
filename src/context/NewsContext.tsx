@@ -1,13 +1,16 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { NewsItem } from '../types';
-import { fetchNews, searchNews as searchNewsService } from '../services/newsService';
+// import { fetchNews, searchNews as searchNewsService } from '../services/newsService'; // searchNewsService commented out
+import { fetchNews } from '../services/newsService';
+
 
 interface NewsContextType {
   news: NewsItem[];
   loading: boolean;
   error: string | null;
   refreshNews: () => Promise<void>;
-  searchNews: (keyword: string) => Promise<void>;
+  // TODO: Re-enable searchNews when backend functionality is available
+  // searchNews: (keyword: string) => Promise<void>;
 }
 
 export const NewsContext = createContext<NewsContextType>({
@@ -15,7 +18,8 @@ export const NewsContext = createContext<NewsContextType>({
   loading: false,
   error: null,
   refreshNews: async () => {},
-  searchNews: async () => {},
+  // TODO: Re-enable searchNews when backend functionality is available
+  // searchNews: async () => {},
 });
 
 interface NewsProviderProps {
@@ -40,11 +44,13 @@ export const NewsProvider: React.FC<NewsProviderProps> = ({ children }) => {
     }
   };
 
+  // TODO: Re-enable searchNews when backend functionality is available
+  /*
   const searchNews = async (keyword: string) => {
     setLoading(true);
     setError(null);
     try {
-      const searchResults = await searchNewsService(keyword);
+      const searchResults = await searchNewsService(keyword); // This service is commented out
       setNews(searchResults);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to search news');
@@ -52,13 +58,15 @@ export const NewsProvider: React.FC<NewsProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
+  */
 
   useEffect(() => {
     refreshNews();
   }, []);
 
   return (
-    <NewsContext.Provider value={{ news, loading, error, refreshNews, searchNews }}>
+    // <NewsContext.Provider value={{ news, loading, error, refreshNews, searchNews }}>
+    <NewsContext.Provider value={{ news, loading, error, refreshNews }}>
       {children}
     </NewsContext.Provider>
   );
